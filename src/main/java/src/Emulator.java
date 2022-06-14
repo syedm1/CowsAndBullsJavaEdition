@@ -1,6 +1,7 @@
 package src;
 
 import src.interfaces.InputInterface;
+import src.interfaces.InputValidationInterface;
 import src.interfaces.ScoreCalculatorInterface;
 import src.interfaces.SecretGeneratorInterface;
 
@@ -13,6 +14,7 @@ public class Emulator {
     private ScoreCalculatorInterface _scoreCalculator;
     private SecretGeneratorInterface _secretGenerator;
     private InputInterface _input;
+    private InputValidationInterface _inputValidator;
     private Scanner scanner;
     private final boolean DEBUG = true;
 
@@ -39,9 +41,14 @@ public class Emulator {
         _input = input;
     }
 
+      public void setInputValidator(InputValidationInterface validator) {
+        _inputValidator = validator;
+    }
+
     private void matchGuess(String input,String secret){
-        _input.setInput(input);
-        _scoreCalculator.initialize(_input.getInput(), secret);
+        _scoreCalculator.initialize(input, secret);
+        //@todo getScore, output Interface
+//        _scoreCalculator.getScore(input,secret)
         PrintToConsole(_scoreCalculator.getFinalDisplay());
     }
 
@@ -60,8 +67,7 @@ public class Emulator {
 
         userInput = takeUserInput();
 
-
-        if(isValidInput(userInput)){
+        if(_inputValidator.isValidInput(userInput)){
             matchGuess(userInput, secret);
         }
         else{
@@ -103,9 +109,6 @@ public class Emulator {
         }
     }
 
-    public boolean isValidInput(String userInput) {
-        return userInput.length()==4 && isInteger(userInput);
-    }
 
     private void PrintToConsole(String display) {
         System.out.println(display);
