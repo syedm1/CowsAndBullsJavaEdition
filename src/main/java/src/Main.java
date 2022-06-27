@@ -1,9 +1,6 @@
 package src;
 
-import src.interfaces.InputInterface;
-import src.interfaces.InputValidationInterface;
-import src.interfaces.ScoreCalculatorInterface;
-import src.interfaces.SecretGeneratorInterface;
+import src.interfaces.*;
 
 public class Main {
     public static void main(String args[]) {
@@ -13,6 +10,7 @@ public class Main {
         ScoreCalculatorInterface scoreCalculatorInterface = new ScoreCalculator();
         SecretGeneratorInterface secretGeneratorInterface = new SecretGenerator();
         InputValidationInterface inputValidationInterface = new InputValidator();
+        OutputInterface outputInterface = new OutputPrinter();
 
         Emulator emulator = Emulator.getInstance();
 
@@ -20,6 +18,7 @@ public class Main {
         emulator.setInput(inputInterface);
         emulator.setScoreCalculator(scoreCalculatorInterface);
         emulator.setSecretGenerator(secretGeneratorInterface);
+        emulator.setOutputInterface(outputInterface);
 
         emulator.runGame();
     }

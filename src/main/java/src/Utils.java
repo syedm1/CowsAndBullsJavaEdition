@@ -36,6 +36,10 @@ public final class Utils {
         return Character.getNumericValue(num);
     }
 
+    public static void PrintToConsole(String display) {
+        System.out.println(display);
+    }
+
     public static boolean isInteger(String input) {
         return input.matches("-?\\d+");
     }

@@ -1,13 +1,9 @@
 package src;
 
-import src.interfaces.InputInterface;
-import src.interfaces.InputValidationInterface;
-import src.interfaces.ScoreCalculatorInterface;
-import src.interfaces.SecretGeneratorInterface;
+import src.interfaces.*;
+import src.models.ScoreDetails;
 
 import java.util.Scanner;
-
-import static src.Utils.isInteger;
 
 public class Emulator {
     private static Emulator uniqueInstance;
@@ -15,6 +11,7 @@ public class Emulator {
     private SecretGeneratorInterface _secretGenerator;
     private InputInterface _input;
     private InputValidationInterface _inputValidator;
+    private OutputInterface _output;
     private Scanner scanner;
     private final boolean DEBUG = true;
 
@@ -41,76 +38,72 @@ public class Emulator {
         _input = input;
     }
 
-      public void setInputValidator(InputValidationInterface validator) {
+    public void setInputValidator(InputValidationInterface validator) {
         _inputValidator = validator;
     }
 
-    private void matchGuess(String input,String secret){
-        _scoreCalculator.initialize(input, secret);
-        //@todo getScore, output Interface
-//        _scoreCalculator.getScore(input,secret)
-        PrintToConsole(_scoreCalculator.getFinalDisplay());
+    public void setOutputInterface(OutputInterface output) {
+        _output = output;
     }
 
-    private String takeUserInput(){
-        PrintToConsole("Take a guess");
+    private void matchGuess(String input, String secret) {
+        ScoreDetails scoreDetails = _scoreCalculator.getScoreDetails(input, secret);
+        _output.finalScoreDisplay(scoreDetails);
+    }
+
+    private String takeUserInput() {
+        _output.requestUserForGuess();
         String input = scanner.nextLine();
         return input;
     }
 
-    private String warnInvalidInput(){
-        return "Invalid input. Please try again with input of 4 Integers, Example: 1234";
-    }
-
-    public void guessStep(String secret){
+    public void guessStep(String secret) {
         String userInput;
-
         userInput = takeUserInput();
 
-        if(_inputValidator.isValidInput(userInput)){
+        if (_inputValidator.isValidInput(userInput)) {
             matchGuess(userInput, secret);
-        }
-        else{
-            PrintToConsole(warnInvalidInput());
+        } else {
+            _output.warnInvalidInput();
             guessStep(secret);
         }
-
-
-        if(_scoreCalculator.getBullsCount() == 4){
-            PrintToConsole("You guessed the secret. You are a master codebreaker");
-        }
     }
+
     public void runGame() {
         boolean continueGame = true;
         String secret = _secretGenerator.generateSecret();
         while (continueGame) {
-
-            if(DEBUG){
-                PrintToConsole(secret);
+            if (DEBUG) {
+                _output.showSecret(secret);
             }
-
-            guessStep(secret);
-
-            PrintToConsole("Continue game? (0) No (1) Yes (2) Ask computer a hint");
-            int select;
-            try {
-                select = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-               select=0;
-            }
-
-            if (select == 0) {
-                continueGame = false;
-            }
-            if (select ==2){
-                PrintToConsole("Computer hints :"+ secret.substring(0,2));
-            }
-
+            continueGame = coreSelection(secret, continueGame);
         }
     }
 
+    public boolean coreSelection(String secret, boolean continueGame) {
+        guessStep(secret);
+        _output.requestUserToChooseGameOptions();
+        int select = getUserIntInput();
 
-    private void PrintToConsole(String display) {
-        System.out.println(display);
+        switch (select) {
+            case 0:
+                continueGame = false;
+            case 2:
+                _output.giveUserHint(secret);
+            default:
+                continueGame = true;
+        }
+
+        return continueGame;
+    }
+
+    public int getUserIntInput() {
+        int select;
+        try {
+            select = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            select = 0;
+        }
+        return select;
     }
 }

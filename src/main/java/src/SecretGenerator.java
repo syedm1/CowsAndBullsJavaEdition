@@ -30,6 +30,4 @@ public class SecretGenerator implements SecretGeneratorInterface {
         }
         return result;
     }
-
-
 }
