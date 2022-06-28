@@ -14,7 +14,8 @@ public class ScoreCalculator implements ScoreCalculatorInterface {
         if (stringIsNullOrEmpty(currentInput) || stringIsNullOrEmpty(currentSecret)) {
             throw new RuntimeException("Corrupted input or data. Please try again later");
         }
-        if (isInteger(currentInput) || isInteger(currentSecret)) {
+        // @todo convert to int type before reaches interface
+        if (!isInteger(currentInput)) {
             throw new RuntimeException("Invalid input only numbers are accepted. Please try again later");
         }
 

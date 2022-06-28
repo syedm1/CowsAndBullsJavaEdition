@@ -80,6 +80,7 @@ public class Emulator {
         }
     }
 
+    // todo: make private functions
     public boolean coreSelection(String secret, boolean continueGame) {
         guessStep(secret);
         _output.requestUserToChooseGameOptions();

@@ -9,6 +9,7 @@ public class OutputPrinter implements OutputInterface {
 
     @Override
     public void finalScoreDisplay(ScoreDetails scoreDetails) {
+        //todo refactor this logic into score interface
         if (scoreDetails.getBullsCount() == 4) {
             PrintToConsole("You guessed the secret. You are a master codebreaker \n");
         }
