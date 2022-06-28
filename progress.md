@@ -16,3 +16,4 @@
 - [ ] Update `Scorecalculator` and `ScoreDetails` logic to have game winner logic
 - [ ] To create interface to let computer take the shots
 - [ ] Refactor `Emulator` code
+- [ ] Try to introduce architecture pattern for Computer guessor
