@@ -46,29 +46,6 @@ public class Emulator {
         _output = output;
     }
 
-    private void matchGuess(String input, String secret) {
-        ScoreDetails scoreDetails = _scoreCalculator.getScoreDetails(input, secret);
-        _output.finalScoreDisplay(scoreDetails);
-    }
-
-    private String takeUserInput() {
-        _output.requestUserForGuess();
-        String input = scanner.nextLine();
-        return input;
-    }
-
-    public void guessStep(String secret) {
-        String userInput;
-        userInput = takeUserInput();
-
-        if (_inputValidator.isValidInput(userInput)) {
-            matchGuess(userInput, secret);
-        } else {
-            _output.warnInvalidInput();
-            guessStep(secret);
-        }
-    }
-
     public void runGame() {
         boolean continueGame = true;
         String secret = _secretGenerator.generateSecret();
@@ -80,8 +57,18 @@ public class Emulator {
         }
     }
 
-    // todo: make private functions
-    public boolean coreSelection(String secret, boolean continueGame) {
+    private void matchGuess(String input, String secret) {
+        ScoreDetails scoreDetails = _scoreCalculator.getScoreDetails(input, secret);
+        _output.finalScoreDisplay(scoreDetails);
+    }
+
+    private String takeUserInput() {
+        _output.requestUserForGuess();
+        String input = scanner.nextLine();
+        return input;
+    }
+
+    private boolean coreSelection(String secret, boolean continueGame) {
         guessStep(secret);
         _output.requestUserToChooseGameOptions();
         int select = getUserIntInput();
@@ -98,7 +85,19 @@ public class Emulator {
         return continueGame;
     }
 
-    public int getUserIntInput() {
+    private void guessStep(String secret) {
+        String userInput;
+        userInput = takeUserInput();
+
+        if (_inputValidator.isValidInput(userInput)) {
+            matchGuess(userInput, secret);
+        } else {
+            _output.warnInvalidInput();
+            guessStep(secret);
+        }
+    }
+
+    private int getUserIntInput() {
         int select;
         try {
             select = Integer.parseInt(scanner.nextLine());

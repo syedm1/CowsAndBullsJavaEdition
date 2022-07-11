@@ -19,10 +19,17 @@ class ScoreCalculatorInterfaceTest {
     }
 
     @Test
-    @DisplayName("Given a right guess there should be 4 bulls")
+    @DisplayName("Given a guess with 3 correct values there should be 3 bulls")
     void testBullPrediction() {
-        ScoreDetails scoreDetails = scoreCalculator.getScoreDetails("1234", "1234");
-        assertTrue(scoreDetails.getBullsCount() == 4);
+        ScoreDetails scoreDetails = scoreCalculator.getScoreDetails("1235", "1234");
+        assertTrue(scoreDetails.getBullsCount() == 3);
+    }
+
+      @Test
+    @DisplayName("Given a right guess we must have a winner")
+    void testWinnerPrediction() {
+        ScoreDetails scoreDetails = scoreCalculator.getScoreDetails("12345", "12345");
+        assertTrue(scoreDetails.getIsWinner());
     }
 
     @Test
