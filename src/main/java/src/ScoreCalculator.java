@@ -33,6 +33,10 @@ public class ScoreCalculator implements ScoreCalculatorInterface {
                 }
             }
         }
+
+        if (scoreDetails.getBullsCount() == currentSecret.length())
+            scoreDetails.perfectScore();
+
         return scoreDetails;
     }
 
