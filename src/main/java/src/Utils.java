@@ -3,6 +3,7 @@ package src;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public final class Utils {
@@ -43,4 +44,9 @@ public final class Utils {
     public static boolean isInteger(String input) {
         return input.matches("-?\\d+");
     }
+
+    public static <T> T getRandomArrayItem(List<T> items) {
+        return items.get(new Random().nextInt(items.size()));
+    }
+
 }

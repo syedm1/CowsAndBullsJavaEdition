@@ -13,7 +13,7 @@ public class Emulator {
     private InputInterface _input;
     private InputValidationInterface _inputValidator;
     private OutputInterface _output;
-    private AIGuessorInterface _aiGuessInterface;
+    private Context _context;
     private Scanner scanner;
     private final boolean DEBUG = true;
 
@@ -44,8 +44,8 @@ public class Emulator {
         _inputValidator = validator;
     }
 
-    public void setAIInterface(AIGuessorInterface aiGuessorInterface) {
-        _aiGuessInterface = aiGuessorInterface;
+    public void setContext(Context context) {
+        _context = context;
     }
 
     public void setOutputInterface(OutputInterface output) {
@@ -63,15 +63,14 @@ public class Emulator {
         }
     }
 
-    private void matchGuess(String input, String secret) {
+    private void matchGuess(int input, String secret) {
         ScoreDetails scoreDetails = _scoreCalculator.getScoreDetails(input, secret);
         _output.finalScoreDisplay(scoreDetails);
     }
 
     private String takeUserInput() {
         _output.requestUserForGuess();
-        String input = scanner.nextLine();
-        return input;
+        return scanner.nextLine();
     }
 
     private boolean coreSelection(String secret, boolean continueGame) {
@@ -80,7 +79,7 @@ public class Emulator {
         String userInput = "";
 
         if (select == 2) {
-            AIGuessDetails aiGuessDetails = _aiGuessInterface.guess(secret, _scoreCalculator);
+            AIGuessDetails aiGuessDetails = _context.executeAIGuessStrategy(secret, _scoreCalculator);
             _output.showAIGuessDetails(aiGuessDetails);
         } else {
             userInput = takeUserInput();
@@ -91,13 +90,17 @@ public class Emulator {
         _output.requestUserToChooseGameOptions();
         select = getUserIntInput();
 
-        switch (select) {
-            case 0:
-                continueGame = false;
-            case 2:
-                _output.giveUserHint(secret);
-            default:
-                continueGame = true;
+        return manualSelectOptions(select, secret, continueGame);
+    }
+
+    private boolean manualSelectOptions(int select, String secret, boolean continueGame) {
+        if (select == 1) {
+            continueGame = true;
+        } else if (select == 2) {
+            continueGame = true;
+            _output.giveUserHint(secret);
+        } else {
+            continueGame = false;
         }
 
         return continueGame;
@@ -105,7 +108,7 @@ public class Emulator {
 
     private void guessStep(String secret, String userInput) {
         if (_inputValidator.isValidInput(userInput)) {
-            matchGuess(userInput, secret);
+            matchGuess(_inputValidator.extractInteger(userInput), secret);
         } else {
             _output.warnInvalidInput();
             coreSelection(secret, false);

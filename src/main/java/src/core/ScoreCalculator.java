@@ -10,17 +10,10 @@ import java.util.List;
 import static src.Utils.*;
 
 public class ScoreCalculator implements ScoreCalculatorInterface {
-    public ScoreDetails getScoreDetails(String currentInput, String currentSecret) throws RuntimeException {
-        if (stringIsNullOrEmpty(currentInput) || stringIsNullOrEmpty(currentSecret)) {
-            throw new RuntimeException("Corrupted input or data. Please try again later");
-        }
-        // @todo convert to int type before reaches interface
-        if (!isInteger(currentInput)) {
-            throw new RuntimeException("Invalid input only numbers are accepted. Please try again later");
-        }
-
+    public ScoreDetails getScoreDetails(int currentInput, String currentSecret) throws RuntimeException {
+        String input = String.valueOf(currentInput);
         ScoreDetails scoreDetails = new ScoreDetails();
-        List<Character> _userGuess = stringToCharList(currentInput.toLowerCase());
+        List<Character> _userGuess = stringToCharList(input);
         List<Character> _secret = stringToCharList(currentSecret);
 
         for (char num : _userGuess

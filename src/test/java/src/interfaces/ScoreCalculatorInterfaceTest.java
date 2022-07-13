@@ -20,37 +20,21 @@ class ScoreCalculatorInterfaceTest {
     @Test
     @DisplayName("Given a guess with 3 correct values there should be 3 bulls")
     void testBullPrediction() {
-        ScoreDetails scoreDetails = scoreCalculator.getScoreDetails("1235", "1234");
+        ScoreDetails scoreDetails = scoreCalculator.getScoreDetails(1235, "1234");
         assertEquals(3, scoreDetails.getBullsCount());
     }
 
-      @Test
+    @Test
     @DisplayName("Given a right guess we must have a winner")
     void testWinnerPrediction() {
-        ScoreDetails scoreDetails = scoreCalculator.getScoreDetails("12345", "12345");
+        ScoreDetails scoreDetails = scoreCalculator.getScoreDetails(12345, "12345");
         assertTrue(scoreDetails.getIsWinner());
     }
 
     @Test
     @DisplayName("Given a right guess in wrong order there should be 4 cows")
     void testCowPrediction() {
-        ScoreDetails scoreDetails = scoreCalculator.getScoreDetails("1234", "4321");
+        ScoreDetails scoreDetails = scoreCalculator.getScoreDetails(1234, "4321");
         assertEquals(4, scoreDetails.getCowsCount());
-    }
-
-    @Test
-    @DisplayName("Given a invalid guess there should be a RuntimeException")
-    void testInvalidInput() {
-        assertThrows(RuntimeException.class, () -> {
-            scoreCalculator.getScoreDetails("abcd", "4321");
-        });
-    }
-
-    @Test
-    @DisplayName("Given a empty guess there should be a RuntimeException")
-    void testEmptyInput() {
-        assertThrows(RuntimeException.class, () -> {
-            scoreCalculator.getScoreDetails("", "4321");
-        });
     }
 }

@@ -4,11 +4,11 @@ import src.interfaces.AIGuesserInterface;
 import src.interfaces.ScoreCalculatorInterface;
 import src.models.AIGuessDetails;
 
-public class AIBruteForceGuesser implements AIGuesserInterface {
-    private int MAX_GUESS_LIMIT = 999999999;
+public class AIBruteForceGuesser2 implements AIGuesserInterface {
+    private int MAX_GUESS_LIMIT = 999999998;
     SecretGenerator guessGenerator;
 
-    public AIBruteForceGuesser() {
+    public AIBruteForceGuesser2() {
         guessGenerator = new SecretGenerator();
     }
 

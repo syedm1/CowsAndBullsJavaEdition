@@ -4,8 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import src.core.InputValidator;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class InputValidationInterfaceTest {
 
@@ -34,4 +33,21 @@ class InputValidationInterfaceTest {
     void testInvalidGuessFormatAlphaNumeric() {
         assertFalse(_inputValidationInterface.isValidInput("12z3"));
     }
+
+    @Test
+    @DisplayName("Given a character guess there should be a NumberFormatException")
+    void testBadInput() {
+        assertThrows(NumberFormatException.class, () -> {
+            _inputValidationInterface.extractInteger("abcd");
+        });
+    }
+
+    @Test
+    @DisplayName("Given a empty guess there should be a NumberFormatException")
+    void testEmptyInput() {
+        assertThrows(NumberFormatException.class, () -> {
+            _inputValidationInterface.extractInteger("");
+        });
+    }
+
 }

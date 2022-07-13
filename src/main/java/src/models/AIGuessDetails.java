@@ -6,11 +6,11 @@ public class AIGuessDetails {
     String secret;
     String guess;
 
-    public AIGuessDetails(int numberOfAttempts, boolean secretCracked, String secret, String guess) {
+    public AIGuessDetails(int numberOfAttempts, String secret, String guess) {
         this.numberOfAttempts = numberOfAttempts;
-        this.secretCracked = secretCracked;
         this.secret = secret;
         this.guess = guess;
+        this.secretCracked = guess.equals(secret);
     }
 
     public int getNumberOfAttempts() {

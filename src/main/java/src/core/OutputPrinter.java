@@ -10,7 +10,6 @@ public class OutputPrinter implements OutputInterface {
 
     @Override
     public void finalScoreDisplay(ScoreDetails scoreDetails) {
-        //todo refactor this logic into score interface
         if (scoreDetails.getIsWinner()) {
             PrintToConsole("You guessed the secret. You are a master codebreaker \n");
         }
@@ -28,7 +27,7 @@ public class OutputPrinter implements OutputInterface {
 
      @Override
     public void manualOrComputerGuess() {
-        PrintToConsole("(1) Yes (2) Ask computer to guess");
+        PrintToConsole("(1) Manual guess (2) Ask computer to guess");
     }
 
     @Override

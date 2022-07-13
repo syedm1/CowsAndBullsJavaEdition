@@ -11,4 +11,8 @@ public class InputValidator implements InputValidationInterface {
     public boolean isValidInput(String text) {
         return text.length() == USER_GUESS_LENGTH && isInteger(text);
     }
+
+    public int extractInteger(String text) throws NumberFormatException{
+       return Integer.parseInt(text);
+    }
 }
