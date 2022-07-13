@@ -1,6 +1,7 @@
 package src;
 
 import src.interfaces.*;
+import src.models.AIGuessDetails;
 import src.models.ScoreDetails;
 
 import java.util.Scanner;
@@ -12,6 +13,7 @@ public class Emulator {
     private InputInterface _input;
     private InputValidationInterface _inputValidator;
     private OutputInterface _output;
+    private AIGuessorInterface _aiGuessInterface;
     private Scanner scanner;
     private final boolean DEBUG = true;
 
@@ -42,6 +44,10 @@ public class Emulator {
         _inputValidator = validator;
     }
 
+    public void setAIInterface(AIGuessorInterface aiGuessorInterface) {
+        _aiGuessInterface = aiGuessorInterface;
+    }
+
     public void setOutputInterface(OutputInterface output) {
         _output = output;
     }
@@ -69,9 +75,21 @@ public class Emulator {
     }
 
     private boolean coreSelection(String secret, boolean continueGame) {
-        guessStep(secret);
-        _output.requestUserToChooseGameOptions();
+        _output.manualOrComputerGuess();
         int select = getUserIntInput();
+        String userInput = "";
+
+        if (select == 2) {
+            AIGuessDetails aiGuessDetails = _aiGuessInterface.guess(secret, _scoreCalculator);
+            _output.showAIGuessDetails(aiGuessDetails);
+        } else {
+            userInput = takeUserInput();
+            guessStep(secret, userInput);
+        }
+
+
+        _output.requestUserToChooseGameOptions();
+        select = getUserIntInput();
 
         switch (select) {
             case 0:
@@ -85,15 +103,12 @@ public class Emulator {
         return continueGame;
     }
 
-    private void guessStep(String secret) {
-        String userInput;
-        userInput = takeUserInput();
-
+    private void guessStep(String secret, String userInput) {
         if (_inputValidator.isValidInput(userInput)) {
             matchGuess(userInput, secret);
         } else {
             _output.warnInvalidInput();
-            guessStep(secret);
+            coreSelection(secret, false);
         }
     }
 
@@ -106,4 +121,6 @@ public class Emulator {
         }
         return select;
     }
+
+
 }

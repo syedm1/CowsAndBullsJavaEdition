@@ -1,5 +1,6 @@
 package src;
 
+import src.core.*;
 import src.interfaces.*;
 
 public class Main {
@@ -11,6 +12,7 @@ public class Main {
         SecretGeneratorInterface secretGeneratorInterface = new SecretGenerator();
         InputValidationInterface inputValidationInterface = new InputValidator();
         OutputInterface outputInterface = new OutputPrinter();
+        AIGuessorInterface aiGuessorInterface = new AIBruteForceGuesser();
 
         Emulator emulator = Emulator.getInstance();
 
@@ -19,6 +21,7 @@ public class Main {
         emulator.setScoreCalculator(scoreCalculatorInterface);
         emulator.setSecretGenerator(secretGeneratorInterface);
         emulator.setOutputInterface(outputInterface);
+        emulator.setAIInterface(aiGuessorInterface);
 
         emulator.runGame();
     }

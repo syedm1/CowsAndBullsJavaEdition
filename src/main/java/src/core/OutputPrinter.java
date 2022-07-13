@@ -1,6 +1,7 @@
-package src;
+package src.core;
 
 import src.interfaces.OutputInterface;
+import src.models.AIGuessDetails;
 import src.models.ScoreDetails;
 
 import static src.Utils.PrintToConsole;
@@ -25,6 +26,11 @@ public class OutputPrinter implements OutputInterface {
         PrintToConsole("Take a guess");
     }
 
+     @Override
+    public void manualOrComputerGuess() {
+        PrintToConsole("(1) Yes (2) Ask computer to guess");
+    }
+
     @Override
     public void requestUserToChooseGameOptions() {
         PrintToConsole("Continue game? (0) No (1) Yes (2) Ask computer a hint");
@@ -38,6 +44,11 @@ public class OutputPrinter implements OutputInterface {
     @Override
     public void showSecret(String secret) {
         PrintToConsole(secret);
+    }
+
+    @Override
+    public void showAIGuessDetails(AIGuessDetails details) {
+        PrintToConsole(details.displayAIGuessDetails());
     }
 }
 

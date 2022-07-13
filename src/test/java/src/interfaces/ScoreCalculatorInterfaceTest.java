@@ -3,8 +3,7 @@ package src.interfaces;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import src.Emulator;
-import src.ScoreCalculator;
+import src.core.ScoreCalculator;
 import src.models.ScoreDetails;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +21,7 @@ class ScoreCalculatorInterfaceTest {
     @DisplayName("Given a guess with 3 correct values there should be 3 bulls")
     void testBullPrediction() {
         ScoreDetails scoreDetails = scoreCalculator.getScoreDetails("1235", "1234");
-        assertTrue(scoreDetails.getBullsCount() == 3);
+        assertEquals(3, scoreDetails.getBullsCount());
     }
 
       @Test
@@ -36,7 +35,7 @@ class ScoreCalculatorInterfaceTest {
     @DisplayName("Given a right guess in wrong order there should be 4 cows")
     void testCowPrediction() {
         ScoreDetails scoreDetails = scoreCalculator.getScoreDetails("1234", "4321");
-        assertTrue(scoreDetails.getCowsCount() == 4);
+        assertEquals(4, scoreDetails.getCowsCount());
     }
 
     @Test

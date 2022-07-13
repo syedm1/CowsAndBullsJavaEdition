@@ -1,4 +1,4 @@
-package src;
+package src.core;
 
 import src.interfaces.InputValidationInterface;
 
